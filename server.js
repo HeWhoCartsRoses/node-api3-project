@@ -52,7 +52,24 @@ function validateUser(user) {
 }
 
 function validatePost(post) {
-  return function (req, res, next) {};
+  if (!post.body) {
+    return function (req, res, next) {
+      res
+        .status(400)
+        .json({
+          message: "missing post data"
+        });
+    };
+  }
+  if (!post.body.text) {
+    return function (req, res, next) {
+      res
+        .status(400)
+        .json({
+          message: "missing required text field"
+        });
+    };
+  }
 }
 
 module.exports = server;
