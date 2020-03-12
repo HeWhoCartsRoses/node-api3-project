@@ -1,5 +1,6 @@
 const express = require("express");
-
+const post = require("./posts/postDb.js");
+const user = require("./users/userDb.js");
 const server = express();
 server.use(express.json());
 server.get("/", logger, (req, res) => {
@@ -12,11 +13,42 @@ function logger(req, res, next) {
 }
 
 function validateUserId(id) {
-  return function (req, res, next) {};
+  if (id === valid) {
+    return function (req, res, next) {
+      req.user = id;
+
+      next();
+    };
+  } else {
+    return function (req, res, next) {
+      res
+        .status(400)
+        .json({
+          message: "invalid user id"
+        });
+    }
+  }
 }
 
 function validateUser(user) {
-  return function (req, res, next) {};
+  if (!body) {
+    return function (req, res, next) {
+      res
+        .status(400)
+        .json({
+          message: "missing user data"
+        });
+    };
+  }
+  if (!body.name) {
+    return function (req, res, next) {
+      res
+        .status(400)
+        .json({
+          message: "missing required text field"
+        });
+    };
+  }
 }
 
 function validatePost(post) {
